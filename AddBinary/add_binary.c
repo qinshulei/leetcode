@@ -11,86 +11,94 @@
 
 #include<stdio.h>
 #include<stdlib.h>
-
+#include<string.h>
 
 
 char* add(char* m_long, char* m_short, int longLen, int shortLen)
 {
-   char* result = (char *) malloc ( sizeof(char)*(longLen+3) );
-   boolean flag = false;
+   char* result = (char *) malloc ( sizeof(char)*(longLen+2) );
+   
+   result[longLen + 1] = 0;
+  
+   int flag = 0;
    int i = 0;
    for (i=0; i < shortLen; i++){
-      char s = *(m_long + shortLen - i);
-      char l = *(m_short + longLen - i);
+      char s = *(m_short + shortLen - i - 1);
+      char l = *(m_long + longLen - i - 1);
      
       if ( s == '0' && l == '0'){
-         if ( flag == true){
+         if ( flag == 1){
          
-           result[longLen + 1 - i] = '1';
-           flag = false;
+           result[longLen - i] = '1';
+           flag = 0;
            
          } else {
          
-           result[longLen + 1 - i] = '0';
+           result[longLen - i] = '0';
       
         }
-        flag = false;
+        flag = 0;
       } else if ( (s == '0' && l == '1') || ( s == '1' && l == '0' ) ){
-        if ( flag == true){
-          result[longLen + 1 - i] = '0';
-          flag = true;
+        if ( flag == 1){
+          result[longLen - i] = '0';
+          flag = 1;
         }
         else{
-          result[longLen + 1 - i] = '1';
-          flag = false;
+          result[longLen - i] = '1';
+          flag = 0;
         }
         
       
       } else if ( s == '1' && l == '1' ){
-        if (flag == true){
+        if (flag == 1){
         
-          result[longLen + 1 - i] = '1';
-          flag = true;
+          result[longLen - i] = '1';
+          flag = 1;
         }
         else{
-           result[longLen + 1 - i] = '0';
-           flag = true;
+           result[longLen - i] = '0';
+           flag = 1;
         }
       
       
       }
    }
    
+   
    for(; i<longLen; i++)
    {
-      char l = *(m_long + longlen - i);
-      if ( flag == true ){
+      char l = *(m_long + longLen - i - 1);
+      if ( flag == 1 ){
         if ( l == '1' ) {
         
         
-          result[longLen + 1 - i] = '0';
-          flag = false;
+          result[longLen - i] = '0';
+          flag = 1;
         
         } else if ( l == '0' ){
         
-          result[longLen + 1 - i] = '1';
+          result[longLen - i] = '1';
         
-          flag = false;
+          flag = 0;
           
         }
       } else {
       
-        result[longLen + 1 - i] = l;
+        result[longLen - i] = l;
       
       }
    }
-   if(flag == true)
+   
+   
+   if(flag == 1)
    {
-     result[0] = 1;
+     result[0] = '1';
+   } else {
+     
+     result = result + 1;
    }
    
-    result[longLen + 2] = 0;
-   
+   return result; 
     
 }
 
@@ -108,10 +116,9 @@ char* addBinary(char* a, char* b){
     
 }
 
-void main(){
-
-    char* a ="11";
-    char* b ="1";
-    printf("%s",addBinary(a,b));
-
+int main(){
+    char* a ="101010010000110110111100101111000111111011001110111001111000";
+    char* b ="10001110100001111000001110001000000101011011100001011101101001000000101001111010111001110000";
+    printf("%s \n",addBinary(a,b));
+    return 0;
 }
