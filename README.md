@@ -9,6 +9,7 @@ leetcode with friends.
 + [floobits](https://floobits.com) : https://floobits.com
 
 ### plan
+
 Every 22:00-23:00 , do leetcode in [floobits](https://floobits.com/qinshulei/leetcode/). [![Floobits Status](https://floobits.com/qinshulei/leetcode.svg)](https://floobits.com/qinshulei/leetcode/redirect)
 
 
@@ -28,4 +29,12 @@ git push
 ./share_tty.bash
 
 # start pair
+
+```
+
+### use emacs
+
+```
+package-install floobits
+# it seems only support exsit file. New dir or file will upload but it's slow.
 ```
