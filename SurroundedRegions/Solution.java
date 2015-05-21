@@ -23,6 +23,16 @@
 import java.util.*;
 
 public class Solution {
+
+    public static class Point {
+        public int x;
+        public int y;
+        public Point(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+
     public void solve(char[][] board) {
         for (int row = 0; row < board.length; row ++) {
             for (int col = 0; col < board[row].length; col ++) {
@@ -31,7 +41,42 @@ public class Solution {
                      && board[row][col] == 'O') {
 
                     board[row][col] = '.';
-                    dfs(board, row, col);
+
+                    List<Point> save = new ArrayList<Point>();
+                    save.add(new Point(row,col));
+
+                    while(true){
+                        if(save.size() == 0){
+                            break;
+                        }
+
+                        List<Point> temp = new ArrayList<Point>();
+                        for (int i = 0;i < save.size(); i++){
+                            Point p = save.get(i);
+                            int x = p.x;
+                            int y = p.y;
+                            if ( x - 1 >= 0 && board[x - 1][y] == 'O'){
+                                board[x - 1][y] = '.';
+                                temp.add(new Point(x - 1, y));
+                            }
+
+                            if ( y + 1 < board[x].length && board[x][y + 1] == 'O'){
+                                board[x][y + 1] = '.';
+                                temp.add(new Point(x, y + 1));
+                            }
+
+                            if ( x + 1 < board.length && board[x + 1][y] == 'O'){
+                                board[x + 1][y] = '.';
+                                temp.add(new Point(x + 1, y));
+                            }
+
+                            if ( y - 1 >= 0 && board[x][y - 1] == 'O'){
+                                board[x][y - 1] = '.';
+                                temp.add(new Point(x, y - 1));
+                            }
+                        }
+                        save = temp;
+                    }
                 }
             }
         }
@@ -46,30 +91,6 @@ public class Solution {
             }
         }
     }
-
-    public void dfs(char[][] board,int row, int col){
-
-        if ( row - 1 >= 0 && board[row - 1][col] == 'O'){
-            board[row - 1][col] = '.';
-            dfs(board, row - 1, col);
-        }
-
-        if ( col + 1 < board[row].length && board[row][col + 1] == 'O'){
-            board[row][col + 1] = '.';
-            dfs(board, row, col + 1);
-        }
-
-        if ( row + 1 < board.length && board[row + 1][col] == 'O'){
-            board[row + 1][col] = '.';
-            dfs(board, row + 1, col);
-        }
-
-        if ( col - 1 >= 0 && board[row][col - 1] == 'O'){
-            board[row][col - 1] = '.';
-            dfs(board, row, col - 1);
-        }
-    }
-
 
     public static void  main(String[] args){
         char[][] test = {
