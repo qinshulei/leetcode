@@ -19,7 +19,8 @@ public class Solution {
         outer :
         for (int i = 0; i < haystack.length(); i ++) {
             for (int j = 0; j < needle.length(); j ++) {
-                if ( ! (i + needle.length() - 1 < haystack.length()) ||  haystack.charAt(i + j) != needle.charAt(j)) {
+                if ( (j == 0 && i + needle.length() - 1 >= haystack.length())
+                     || haystack.charAt(i + j) != needle.charAt(j)) {
                     continue outer;
                 }
             }
