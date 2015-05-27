@@ -1,4 +1,3 @@
-
 /*
   https://leetcode.com/problems/string-to-integer-atoi/
   String to Integer
@@ -13,53 +12,49 @@
   The signature of the C++ function had been updated. If you still see your function signature accepts a const char * argument, please click the reload button  to reset your code definition.
 
 */
-
 public class Solution {
     public int myAtoi(String str) {
         boolean isNegative = false;
         int i = 0;
-        for(i = 0;i<str.length();i++) {
-            if(str.charAt(i)=='-' || str.charAt(i)=='+') {
-                if(str.charAt(i) == '-'){
+        for (i = 0; i < str.length(); i++) {
+            if (str.charAt(i) == '-' || str.charAt(i) == '+') {
+                if (str.charAt(i) == '-') {
                     isNegative = true;
                 }
-                if(i + 1 < str.length() && str.charAt(i + 1)>='0'&&str.charAt(i + 1)<='9') {
+                if (i + 1 < str.length() && str.charAt(i + 1) >= '0' && str.charAt(i + 1) <= '9') {
                     str = str.substring(i + 1);
                     break;
                 } else {
                     return 0;
                 }
-            } else if (str.charAt(i)>='0'&&str.charAt(i)<='9') {
+            } else if (str.charAt(i) >= '0' && str.charAt(i) <= '9') {
                 str = str.substring(i);
                 break;
-            }
-            else if(str.charAt(i)==' ') {
+            } else if (str.charAt(i) == ' ') {
                 continue;
-            }
-            else {
+            } else {
                 return 0;
             }
         }
 
-        long  result = 0L; // if the number is bigger than long
-        for(int j=0;j<str.length();j++) {
-            if(str.charAt(j)>='0'&&str.charAt(j)<='9') {
-                result=result*10+str.charAt(j)-'0';
-                if(!isNegative && result >= 2147483647L)
-                    return 2147483647;
-                if(isNegative && result >= 2147483648L)
-                    return -2147483648;
-            }
-            else {
-                if(isNegative) {
-                    return (int)(0-result);
+        int result = 0;
+        for (int j = 0; j < str.length(); j++) {
+            if (str.charAt(j) >= '0' && str.charAt(j) <= '9') {
+                int cur = str.charAt(j) - '0';
+                if (result == 214748364) {
+                    if (!isNegative && cur >= 7)
+                        return 2147483647;
+                    if (isNegative && cur >= 8)
+                        return -2147483648;
+                } else if ( result > 214748364 ) {
+                    return isNegative ? -2147483648 : 2147483647;
                 }
-                return (int)result;
+                result = result * 10 + cur;
+            } else {
+                break;
             }
         }
-        if(isNegative) {
-            return (int)(0-result);
-        }
-        return (int)result;
+
+        return isNegative ? -result : result;
     }
 }
