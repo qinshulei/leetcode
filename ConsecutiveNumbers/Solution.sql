@@ -21,9 +21,9 @@ For example, given the above Logs table, 1 is the only number that appears conse
 从reddit发现有类似问题。
 http://www.reddit.com/r/SQL/comments/18fxho/are_there_any_sites_like_codecademy_to_learn_sql/
 推荐的网站：
-https://schemaverse.com/   best
+http://sqlschool.modeanalytics.com/   learn this course and read the tutorial
+https://schemaverse.com/   then practice
 
-http://sqlschool.modeanalytics.com/
 
 
 http://sqlzoo.net/
