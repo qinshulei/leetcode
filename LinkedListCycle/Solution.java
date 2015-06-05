@@ -13,7 +13,7 @@
 import java.util.*;
 
 public class Solution {
-    class ListNode {
+    public static class ListNode {
         int val;
         ListNode next;
         ListNode(int x) {
@@ -23,10 +23,38 @@ public class Solution {
     }
 
     public boolean hasCycle(ListNode head) {
+        ListNode cursor = head;
+        ListNode index = head;
+        while(index != null){
+            cursor = index.next;
 
+            while (cursor != null) {
+                if (cursor.equals(index)){
+                    return true;
+                }
+                cursor = cursor.next;
+            }
+
+            index = index.next;
+        }
+
+        return false;
     }
 
     public static void main(String[] args){
+        Solution s = new Solution();
 
+        ListNode a = new ListNode(1);
+        ListNode b = new ListNode(2);
+        ListNode c = new ListNode(3);
+        ListNode d = new ListNode(4);
+        a.next = b;
+        b.next = c;
+        c.next = d;
+
+
+        System.out.println( "false : " + s.hasCycle(a) );
+        d.next = a;
+        System.out.println( "true : " + s.hasCycle(a) );
     }
 }
