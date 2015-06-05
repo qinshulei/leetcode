@@ -26,10 +26,14 @@ public class Solution {
         ListNode cursor = head;
         ListNode index = head;
         while(index != null){
-            cursor = index.next;
+            if (index.equals(index.next)) {
+                return true;
+            }
 
-            while (cursor != null) {
-                if (cursor.equals(index)){
+            cursor = head;
+            while (cursor != null && ! cursor.equals(index)) {
+                //System.out.println( "index : " + index.val + " ---- cursor : " + cursor.val);
+                if (cursor.equals(index.next)){
                     return true;
                 }
                 cursor = cursor.next;
@@ -37,7 +41,6 @@ public class Solution {
 
             index = index.next;
         }
-
         return false;
     }
 
@@ -54,7 +57,7 @@ public class Solution {
 
 
         System.out.println( "false : " + s.hasCycle(a) );
-        d.next = a;
+        d.next = c;
         System.out.println( "true : " + s.hasCycle(a) );
     }
 }
