@@ -22,6 +22,12 @@
   Your code should preferably run in O(n) time and use only O(1) memory.
   Credits:
   Special thanks to @stellari for adding this problem and creating all test cases.
+
+  答案提供的方法是，声明两个游标一个从A出发，一个从B出发，一次前进1, 当其中一个到达末尾如果是A就到B，如果是B就到A。
+  这样很神奇的实现了两个游标的同步，这一次如果遇到相同的游标就是要找的点。
+
+  确实做题时是有想到要让游标同步，但没有深入思考，如何让他们同步。如果是list，我们还能用差值，但由于是链表就没想到好办法。
+
 */
 
 import java.util.*;
