@@ -26,13 +26,18 @@ public class Solution {
     public int titleToNumber(String s) {
         char x = 'A' - 1;
         int sum = 0;
-        for (int i = 0; i < s.size(); i++) {
-            sum = sum * 26;
-
+        for (int i = 0; i < s.length(); i++) {
+            int value = s.charAt(i) - x;
+            sum = sum * 26 + value;
         }
+
+        return sum;
     }
 
     public static void main(String[] args){
-
+        Solution s = new Solution();
+        System.out.println(" 26 : " + s.titleToNumber("Z"));
+        System.out.println(" 27 : " + s.titleToNumber("AA"));
+        System.out.println(" 28 : " + s.titleToNumber("AB"));
     }
 }
