@@ -12,6 +12,8 @@
   Your function should return length = 2, with the first two elements of nums being 1 and 2 respectively. It doesn't matter what you leave beyond the new length.
 
   脑子抽风，写了一堆翔一样的代码，明天在看人家的答案来定正。
+
+  真是服了自己了，到底多脑残才能写出昨天那样的代码。
 */
 
 import java.util.*;
@@ -19,79 +21,14 @@ import java.util.*;
 public class Solution {
 
     public int removeDuplicates(int[] nums) {
-        int len = nums.length;
-        int record = 0;
-        int record_start_i = 0;
-        int record_end_i = 0;
-        int placeholder_start_i = 0;
-        int placeholder_end_i = 0;
-        for (int i = 0; i < nums.length; i ++)  {
-            if (i == 0){
-                record = nums[i];
-                record_start_i = i;
-                record_end_i = i;
-            } else if (i == nums.length - 1) {
-                if (record == nums[i]) {
-                    record_end_i = i;
-                    len -= (record_end_i - record_start_i);
-                    if (placeholder_start_i != placeholder_end_i){
-                        nums[placeholder_start_i + 1] = record;
-                    }
-                } else {
-                    if (record_end_i != record_start_i){
-                        len -= (record_end_i - record_start_i);
-
-                        if (placeholder_start_i != placeholder_end_i){
-                            nums[placeholder_start_i + 1] = record;
-                            placeholder_start_i ++;
-                            placeholder_end_i ++;
-                            placeholder_end_i += (record_end_i - record_start_i);
-                        } else {
-                            placeholder_start_i = record_start_i;
-                            placeholder_end_i = record_end_i;
-                        }
-                    } else {
-                        if (placeholder_start_i != placeholder_end_i){
-                            nums[placeholder_start_i + 1] = record;
-                            placeholder_start_i ++;
-                            placeholder_end_i ++;
-                        }
-                    }
-
-                    if (placeholder_start_i != placeholder_end_i){
-                        nums[placeholder_start_i + 1] = nums[i];
-                    }
-                }
-            } else if (record == nums[i]) {
-                record_end_i = i;
-            }  else {
-                if (record_start_i != record_end_i) {
-                    len -= (record_end_i - record_start_i);
-
-                    if (placeholder_start_i != placeholder_end_i){
-                        nums[placeholder_start_i + 1] = record;
-                        placeholder_start_i ++;
-                        placeholder_end_i ++;
-
-                        placeholder_end_i += (record_end_i - record_start_i);
-                    } else {
-                        placeholder_start_i = record_start_i;
-                        placeholder_end_i = record_end_i;
-                    }
-
-                } else {
-                    if (placeholder_start_i != placeholder_end_i){
-                        nums[placeholder_start_i + 1] = record;
-                        placeholder_start_i ++;
-                        placeholder_end_i ++;
-                    }
-                }
-                record = nums[i];
-                record_start_i = i;
-                record_end_i = i;
+        int k = 0;
+        for (int i = 0 ; i < nums.length ; i++) {
+            if (i == 0 || nums[i] > nums[k - 1]){
+                nums[k] = nums[i];
+                k++;
             }
         }
-        return len;
+        return k;
     }
 
     public static void main(String[] args){
