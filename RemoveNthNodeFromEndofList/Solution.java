@@ -36,7 +36,6 @@ public class Solution {
         for(int i = 1; i < n; i++) {
             head = head.next;
         }
-
         while(head.next != null){
             head = head.next;
             pre = pre.next;
