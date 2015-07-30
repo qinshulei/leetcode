@@ -24,24 +24,27 @@
 import java.util.*;
 
 public class Solution {
-    private HashMap<String,HashMap<String,Integer>> save = new HashMap<String,HashMap<String,Integer>>();
+    private HashMap<String,Set<String>> save = new HashMap<String,Set<String>>();
     private int count = -1;
     public int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
+        wordDict.add(beginWord);
+        wordDict.add(endWord);
         for (String start : wordDict) {
             for (String end : wordDict ) {
                 if ( !start.equals(end) ){
                     if (isValid(start, end)) {
-                        Map map = save.get(start);
-                        if (map == null) {
-                            save.put(start,new HashMap<String, Integer>());
+                        Set<String> tempSet = save.get(start);
+                        if (tempSet == null) {
+                            tempSet = new HashSet<String>();
+                            save.put(start,tempSet);
                         }
-                        map.put(end,1);
+                        tempSet.add(end);
                     }
                 }
             }
         }
 
-        solve(beginWord, endWord, wordDict,0);
+        solve(beginWord, endWord, wordDict,1);
 
         if (count == -1) {
             return 0;
@@ -55,22 +58,21 @@ public class Solution {
                 count = num;
             }
         }
-        map = save.get(start);
-        if (map == null) {
+        if (count != -1 && count <= num) {
+            return;
+        }
+        Set<String> tempSet = save.get(start);
+        if (tempSet == null) {
             return;
         }
 
-        Set<String> set = new HashSet<String>();
-        set.add(dict);
-        set.remove(start);
-        set.remove(end);
-
-        for (Map.Entry<String,Integer> entry : map) {
-            String key = entry.getKey();
-            if (set.contains(key)) {
-                solve(key,end,set,num + 1);
+        dict.remove(start);
+        for (String key : tempSet) {
+            if (dict.contains(key)) {
+                solve(key,end,dict,num + 1);
             }
         }
+        dict.add(start);
     }
 
     public boolean isValid(String start,String end) {
@@ -88,6 +90,7 @@ public class Solution {
     }
 
     public static void main(String[] args){
+        Solution s = new Solution();
         Set<String> set = new HashSet<String>();
         set.add("hot");
         set.add("dot");
@@ -96,6 +99,15 @@ public class Solution {
         set.add("log");
         String start = "hit";
         String end = "cog";
-        System.out.printf("its length = %d", ladderLenth(start, end, set));
+        System.out.println("its length = " + s.ladderLength(start, end, set));
+
+        String start2 = "qa";
+        String end2 = "sq";
+        Set<String> set2 = new HashSet<String>();
+        String[] tests = new String[]{"si","go","se","cm","so","ph","mt","db","mb","sb","kr","ln","tm","le","av","sm","ar","ci","ca","br","ti","ba","to","ra","fa","yo","ow","sn","ya","cr","po","fe","ho","ma","re","or","rn","au","ur","rh","sr","tc","lt","lo","as","fr","nb","yb","if","pb","ge","th","pm","rb","sh","co","ga","li","ha","hz","no","bi","di","hi","qa","pi","os","uh","wm","an","me","mo","na","la","st","er","sc","ne","mn","mi","am","ex","pt","io","be","fm","ta","tb","ni","mr","pa","he","lr","sq","ye"};
+        for (int i = 0; i < tests.length; i++) {
+            set2.add(tests[i]);
+        }
+        System.out.println("its length = " + s.ladderLength(start2, end2, set2));
     }
 }
