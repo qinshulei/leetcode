@@ -19,53 +19,39 @@
   All words have the same length.
   All words contain only lowercase alphabetic characters.
 
+  放弃了，直接抄答案了，这用例估计只有答案一条路可以走了。
+  最短路径还是可以用bfs大规模减少时间的，然后bfs一般都用队列徧历
 */
 
 import java.util.*;
 
 public class Solution {
-    public int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
-        wordDict.add(beginWord);
-        wordDict.add(endWord);
 
-        HashMap<String,Set<String>> save = new HashMap<String,Set<String>>();
-        for (String start : wordDict) {
-            for (String end : wordDict ) {
-                if ( !start.equals(end) ){
-                    if (isValid(start, end)) {
-                        Set<String> tempSet = save.get(start);
-                        if (tempSet == null) {
-                            tempSet = new HashSet<String>();
-                            save.put(start,tempSet);
-                        }
-                        tempSet.add(end);
-                    }
-                }
-            }
-        }
-
+    public int ladderLength(String start, String end, Set<String> dict) {
         LinkedList<String> queue = new LinkedList<String>();
-        queue.add(beginWord);
-
+        queue.add(start);
+        dict.add(end);
         int step = 0;
+
         while (!queue.isEmpty()) {
             LinkedList<String> level = new LinkedList<String>();
             step++;
             while (!queue.isEmpty()) {
                 String q = queue.poll();
-                if(q.equals(endWord)){
+                if(q.equals(end))
                     return step;
-                }
 
-                Set<String> tempSet = save.get(q);
-                if (tempSet == null) {
-                    continue;
-                }
-                wordDict.remove(q);
-                for (String key : tempSet) {
-                    if (wordDict.contains(key)) {
-                        level.add(key);
-                        wordDict.remove(key);
+                char[] t = q.toCharArray();
+                for(int i = 0; i < start.length(); i++){
+                    for(char c = 'a'; c <= 'z'; c++){
+                        char temp = t[i];
+                        t[i] = c;
+                        String s = String.copyValueOf(t);
+                        t[i] = temp;
+                        if(dict.contains(s)){
+                            level.add(s);
+                            dict.remove(s);
+                        }
                     }
                 }
             }
@@ -73,20 +59,6 @@ public class Solution {
         }
 
         return 0;
-    }
-
-    public boolean isValid(String start,String end) {
-        boolean flag = false;
-        for (int i = 0; i < start.length(); i++) {
-            if (start.charAt(i) == end.charAt(i)){
-                continue;
-            } else if ( flag == false && start.charAt(i) != end.charAt(i)) {
-                flag = true;
-            } else {
-                return false;
-            }
-        }
-        return flag;
     }
 
     public static void main(String[] args){
