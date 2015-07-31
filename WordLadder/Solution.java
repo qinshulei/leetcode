@@ -24,11 +24,11 @@
 import java.util.*;
 
 public class Solution {
-    private HashMap<String,Set<String>> save = new HashMap<String,Set<String>>();
-    private int count = -1;
     public int ladderLength(String beginWord, String endWord, Set<String> wordDict) {
         wordDict.add(beginWord);
         wordDict.add(endWord);
+
+        HashMap<String,Set<String>> save = new HashMap<String,Set<String>>();
         for (String start : wordDict) {
             for (String end : wordDict ) {
                 if ( !start.equals(end) ){
@@ -44,35 +44,35 @@ public class Solution {
             }
         }
 
-        solve(beginWord, endWord, wordDict,1);
+        LinkedList<String> queue = new LinkedList<String>();
+        queue.add(beginWord);
 
-        if (count == -1) {
-            return 0;
-        }
-        return count;
-    }
+        int step = 0;
+        while (!queue.isEmpty()) {
+            LinkedList<String> level = new LinkedList<String>();
+            step++;
+            while (!queue.isEmpty()) {
+                String q = queue.poll();
+                if(q.equals(endWord)){
+                    return step;
+                }
 
-    public void solve(String start,String end,Set<String> dict,int num) {
-        if (start == end) {
-            if (count == -1 || count > num) {
-                count = num;
+                Set<String> tempSet = save.get(q);
+                if (tempSet == null) {
+                    continue;
+                }
+                wordDict.remove(q);
+                for (String key : tempSet) {
+                    if (wordDict.contains(key)) {
+                        level.add(key);
+                        wordDict.remove(key);
+                    }
+                }
             }
-        }
-        if (count != -1 && count <= num) {
-            return;
-        }
-        Set<String> tempSet = save.get(start);
-        if (tempSet == null) {
-            return;
+            queue = level;
         }
 
-        dict.remove(start);
-        for (String key : tempSet) {
-            if (dict.contains(key)) {
-                solve(key,end,dict,num + 1);
-            }
-        }
-        dict.add(start);
+        return 0;
     }
 
     public boolean isValid(String start,String end) {
@@ -108,6 +108,7 @@ public class Solution {
         for (int i = 0; i < tests.length; i++) {
             set2.add(tests[i]);
         }
-        System.out.println("its length = " + s.ladderLength(start2, end2, set2));
+
+        System.out.println("my : its length = " + s.ladderLength(start2, end2, set2));
     }
 }
