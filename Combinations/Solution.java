@@ -39,15 +39,13 @@ public class Solution {
             List<Integer> temp_list = queue.poll();
             int temp = queue_num.poll();
 
-            if (temp == n) {
-                continue;
-            } else {
+            if (temp_list.size() == k) {
+                result.add(temp_list);
+            } else if (temp < n) {
                 List<Integer> new_temp_list = new ArrayList<Integer>(temp_list);
                 new_temp_list.add(temp + 1);
-
-                if (new_temp_list.size() == k) {
-                    result.add(new_temp_list);
-                }
+                queue.add(new_temp_list);
+                queue_num.add(temp + 1);
 
                 if ( (n - (temp + 1)) >= (k - temp_list.size()) ) {
                     queue.add(temp_list);
@@ -68,5 +66,15 @@ public class Solution {
             }
             System.out.println("");
         }
+        System.out.println("-------------------");
+
+        List<List<Integer>> result2 = s.combine(1, 1);
+        for ( List<Integer> list : result2 ) {
+            for ( Integer i : list ) {
+                System.out.print(" " + i);
+            }
+            System.out.println("");
+        }
+
     }
 }
