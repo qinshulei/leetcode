@@ -12,21 +12,41 @@
 
 import java.util.*;
 
-public class Solution {
+public class Solution2 {
 
     public int countPrimes(int n) {
         boolean[] isPrime = new boolean[n];
+        int[] save = new int[n*2];
         for (int i = 2; i < n; i++) {
             isPrime[i] = true;
         }
-        // Loop's ending condition is i * i < n instead of i < sqrt(n)
-        // to avoid repeatedly calling an expensive function sqrt().
-        for (int i = 2; i * i < n; i++) {
+        for (int i = 2; i < n; i++) {
+            save[i] = 0;
+        }
+
+        int save_index = 0;
+        for (int i = 2; i < n; i++) {
             if (!isPrime[i]) continue;
-            for (int j = i * i; j < n; j += i) {
-                isPrime[j] = false;
+
+            for (int j = i; j < n && j > 1; j = j * i) {
+                if (j != i) {
+                    isPrime[j] = false;
+                }
+
+                save[save_index] = j;
+                save_index++;
+
+                for (int k = 0; save[k] != i; k++) {
+                    int temp = save[k] * j;
+                    if (temp < n && temp > 1) {
+                        isPrime[temp] = false;
+                        save[save_index] = temp;
+                        save_index++;
+                    }
+                }
             }
         }
+
         int count = 0;
         for (int i = 2; i < n; i++) {
             if (isPrime[i]) count++;
@@ -37,7 +57,7 @@ public class Solution {
 
     public static void main(String[] args){
         long startTime = System.currentTimeMillis();
-        Solution s = new Solution();
+        Solution2 s = new Solution2();
         System.out.println("0  : " + s.countPrimes(0));
         System.out.println("1  : " + s.countPrimes(3));
         System.out.println("10  : " + s.countPrimes(31));
